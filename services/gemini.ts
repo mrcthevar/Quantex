@@ -241,14 +241,14 @@ export const generateInsights = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-pro-preview", // Upgraded to Pro for complex schema and better reasoning
+      model: "gemini-3-flash-preview", // Using Flash for reliable search + json combination
       contents: prompt,
       config: {
         systemInstruction: MASTER_SYSTEM_PROMPT,
         responseMimeType: "application/json",
         responseSchema: DASHBOARD_SCHEMA,
         tools: [{ googleSearch: {} }],
-        thinkingConfig: { thinkingBudget: 2048 }, // Enable deep research
+        // Removed thinkingConfig to prevent conflicts with JSON mode and Search
       }
     });
 

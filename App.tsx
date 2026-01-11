@@ -46,8 +46,10 @@ const App: React.FC = () => {
     try {
       const result = await generateInsights(targetProfile, viewerProfile);
       setDashboardData(result);
-    } catch (err) {
-      setError("Failed to generate dashboard. Please check API key and try again.");
+    } catch (err: any) {
+      console.error(err);
+      // Display specific error message if available, otherwise generic
+      setError(err.message || "Failed to generate dashboard. Please check API key and try again.");
     } finally {
       setIsLoading(false);
     }
