@@ -17,6 +17,7 @@ MODEL BEHAVIOUR
   - For 'recent_activity', aim for at least 5 distinct events/news items.
   - For 'past_highlights', aim for a comprehensive career timeline (5+ items).
   - For 'ways_to_add_value', be specific to their current work (not generic).
+  - 'relevance_score': must be a number between 0 and 100 representing compatibility/relevance.
 - Deterministic bias: minimise creativity, maximise accuracy and consistency.
 - Conservative with facts: no hard hallucinations (dates, titles, employers).
 - If you need to infer, use language like “appears to”, “likely”, “seems”.

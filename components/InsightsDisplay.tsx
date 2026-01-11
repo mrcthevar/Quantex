@@ -96,6 +96,12 @@ export const InsightsDisplay: React.FC<InsightsDisplayProps> = ({ data, isLoadin
     return colors[index % colors.length];
   };
 
+  // Helper to format score consistently (handles 0.85 and 85 formats)
+  const formatScore = (score: number) => {
+    const val = score > 1 ? score : score * 100;
+    return Math.min(Math.round(val), 100);
+  };
+
   return (
     <div className="space-y-8 pb-24 animate-fade-in">
       
@@ -175,7 +181,7 @@ export const InsightsDisplay: React.FC<InsightsDisplayProps> = ({ data, isLoadin
             {relevanceScore !== null ? (
               <div className="flex items-baseline gap-1 mb-8">
                 <span className={clsx("text-7xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r", theme.gradient)}>
-                  {Math.round(relevanceScore * 100)}
+                  {formatScore(relevanceScore)}
                 </span>
                 <span className="text-3xl text-slate-500 font-bold">%</span>
               </div>
@@ -200,7 +206,7 @@ export const InsightsDisplay: React.FC<InsightsDisplayProps> = ({ data, isLoadin
                <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
                  <div 
                    className={clsx("h-full bg-gradient-to-r", theme.gradient)} 
-                   style={{ width: `${relevanceScore * 100}%` }} 
+                   style={{ width: `${formatScore(relevanceScore)}%` }} 
                  />
                </div>
              </div>
