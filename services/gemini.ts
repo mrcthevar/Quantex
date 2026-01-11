@@ -219,12 +219,45 @@ const DASHBOARD_SCHEMA: Schema = {
   ]
 };
 
+// Helper to safely get API key from various environment configurations
+const getApiKey = (): string | undefined => {
+  // 1. Check process.env.API_KEY (Standard Node/Webpack/Prompt environment)
+  try {
+    if (typeof process !== 'undefined' && process.env?.API_KEY) {
+      return process.env.API_KEY;
+    }
+  } catch {}
+
+  // 2. Check import.meta.env.VITE_API_KEY (Vite/Cloudflare Standard)
+  try {
+    // @ts-ignore
+    if (import.meta.env?.VITE_API_KEY) {
+      // @ts-ignore
+      return import.meta.env.VITE_API_KEY;
+    }
+  } catch {}
+  
+  // 3. Check import.meta.env.API_KEY (Fallback for some setups)
+  try {
+    // @ts-ignore
+    if (import.meta.env?.API_KEY) {
+      // @ts-ignore
+      return import.meta.env.API_KEY;
+    }
+  } catch {}
+
+  return undefined;
+};
+
 export const generateInsights = async (
   targetProfile: Profile,
   viewerProfile: Profile | null
 ): Promise<DashboardResponse> => {
-  const apiKey = process.env.API_KEY;
-  if (!apiKey) throw new Error("API Key not found");
+  const apiKey = getApiKey();
+  
+  if (!apiKey) {
+    throw new Error("API Key not found. If using Cloudflare/Vite, please ensure your variable is named 'VITE_API_KEY' or 'API_KEY' and exposed to the client.");
+  }
 
   const ai = new GoogleGenAI({ apiKey });
 
